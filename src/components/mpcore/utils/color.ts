@@ -23,6 +23,10 @@ export const cssGradient = (value: any) => {
           return "to top left";
         case "bottomLeft":
           return "to bottom left";
+        case "topCenter":
+          return "to top";
+        case "bottomCenter":
+          return "to bottom";
         default:
           break;
       }

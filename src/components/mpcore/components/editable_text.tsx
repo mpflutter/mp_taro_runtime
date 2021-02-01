@@ -55,7 +55,6 @@ export class EditableText extends Component<{ data: MPComponentsProps }> {
         return "[0-9+-]*";
       }
       if (!signed && !decimal) {
-        console.log("fdshfkjdshalffjklad");
         return "[0-9]*";
       }
     }

@@ -2,6 +2,7 @@ import { Component } from "react";
 import React from "react";
 import { App } from "../../app";
 import { MPComponentsProps } from "../component";
+import { View } from "@tarojs/components";
 
 export class TabBar extends Component<{
   data: MPComponentsProps;
@@ -23,38 +24,22 @@ export class TabBar extends Component<{
   }
 
   render() {
-    const nested = this.props.nested;
     return (
-      <div
-        style={
-          nested
-            ? {
-                backgroundColor: "white",
-                position: "sticky",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                top: "0px",
-                left: "0px",
-                right: "0px",
-                height: "50px",
-              }
-            : {
-                backgroundColor: "white",
-                position: "fixed",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                top: "0px",
-                left: "0px",
-                right: "0px",
-                height: "50px",
-              }
-        }
+      <View
+        style={{
+          backgroundColor: "white",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          top: "0px",
+          left: "0px",
+          right: "0px",
+          height: "50px",
+        }}
       >
         {this.props.data.children.map((it, idx) => {
           return (
-            <div
+            <View
               onClick={() => this.onTapIndex(idx)}
               style={{
                 height: "50px",
@@ -63,7 +48,7 @@ export class TabBar extends Component<{
                 flexDirection: "column",
               }}
             >
-              <div
+              <View
                 style={{
                   flex: "1",
                   display: "flex",
@@ -77,8 +62,8 @@ export class TabBar extends Component<{
                 }}
               >
                 {it.attributes.text}
-              </div>
-              <div
+              </View>
+              <View
                 style={{
                   height: "2px",
                   backgroundColor: "rgb(31,128,240)",
@@ -87,11 +72,11 @@ export class TabBar extends Component<{
                       ? "visible"
                       : "hidden",
                 }}
-              ></div>
-            </div>
+              ></View>
+            </View>
           );
         })}
-      </div>
+      </View>
     );
   }
 }

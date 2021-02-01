@@ -2,13 +2,16 @@ import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
 import { DivContextConsumer } from "./div_context";
+import { cssWidth } from "../utils/geometry";
+import { View } from "@tarojs/components";
 
-export class Flex extends Component<{ data: MPComponentsProps }> {
+export class Wrap extends Component<{ data: MPComponentsProps }> {
   render() {
     return (
       <DivContextConsumer
         style={{
           display: "flex",
+          flexWrap: "wrap",
           flexDirection: (() => {
             switch (this.props.data.attributes.direction) {
               case "Axis.vertical":
@@ -69,7 +72,19 @@ export class Flex extends Component<{ data: MPComponentsProps }> {
           })(),
         }}
       >
-        {this.props.children}
+        {(this.props.children as any[])?.map((it: any, index: number) => {
+          return (
+            <View
+              key={`item_${index}`}
+              style={{
+                marginRight: cssWidth(this.props.data.attributes.spacing),
+                marginBottom: cssWidth(this.props.data.attributes.runSpacing),
+              }}
+            >
+              {it}
+            </View>
+          );
+        })}
       </DivContextConsumer>
     );
   }

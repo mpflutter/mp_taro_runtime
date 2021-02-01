@@ -3,11 +3,15 @@ import { MPComponentsProps } from "../component";
 import React from "react";
 import { View } from "@tarojs/components";
 
-export const DivContext = createContext<{ style: any }>({ style: {} });
+export const DivContext = createContext<{ style: any; onClick: any }>({
+  style: {},
+  onClick: undefined,
+});
 
 export class DivContextProvider extends Component<{
   data?: MPComponentsProps;
   style?: any;
+  onClick?: any;
 }> {
   render() {
     if (!this.props.children || (this.props.children as any[]).length <= 0) {
@@ -20,6 +24,7 @@ export class DivContextProvider extends Component<{
                   ...divContext.style,
                   ...this.props.style,
                 },
+                onClick: this.props.onClick ?? divContext.onClick,
               }}
             >
               <DivContextConsumer
@@ -40,9 +45,11 @@ export class DivContextProvider extends Component<{
             <DivContext.Provider
               value={{
                 style: {
+                  "display": "flex",
                   ...divContext.style,
                   ...this.props.style,
                 },
+                onClick: this.props.onClick ?? divContext.onClick,
               }}
             >
               {this.props.children}
@@ -62,16 +69,25 @@ export class DivContextConsumer extends Component<any> {
           <DivContext.Provider
             value={{
               style: {},
+              onClick: undefined,
             }}
           >
             {createElement(
               (this.props.el ?? View) as any,
               {
+                onClick: divContext.onClick,
                 ...this.props,
-                style: {
-                  ...divContext.style,
-                  ...this.props.style,
-                },
+                style: (() => {
+                  let style = {
+                    "display": "flex",
+                    ...divContext.style,
+                    ...this.props.style,
+                  };
+                  if (divContext.style.overflow === "hidden") {
+                    style.overflow = "hidden";
+                  }
+                  return style;
+                })(),
               },
               this.props.children
             )}

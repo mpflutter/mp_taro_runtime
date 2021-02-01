@@ -47,7 +47,7 @@ export class Align extends Component<{ data: MPComponentsProps }> {
       alignItems = "flex-end";
     }
 
-    if (this.props.data.children?.[0].name === "flex") {
+    if (this.props.data.children?.[0]?.name === "flex") {
       alignItems = "stretch";
     }
     return { display: "flex", justifyContent, alignItems };

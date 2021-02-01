@@ -8,7 +8,7 @@ export class Opacity extends Component<{ data: MPComponentsProps }> {
     return (
       <DivContextProvider
         style={{
-          opacity: this.props.data.attributes.opacity.toString()
+          opacity: this.props.data.attributes.opacity
         }}
       >
         {this.props.children}

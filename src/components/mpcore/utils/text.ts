@@ -24,39 +24,39 @@ function getBaselineStyle(data: any) {
   return undefined;
 }
 
-export function cssTextStyle(data: any): CSSProperties {
-  let style: CSSProperties = {};
+export function cssTextStyle(data: any): string {
+  let style = ``;
 
   if (data != null) {
     if (data.fontFamily) {
-      style.fontFamily = data.fontFamily;
+      style += `font-family: ${data.fontFamily};`;
     }
     if (data.fontSize != null) {
-      style.fontSize = `${(data.fontSize ?? 14).toString()}px`;
+      style += `font-size: ${(data.fontSize ?? 14).toString()}px;`;
     }
     if (data.color != null) {
-      style.color = cssColor(data.color);
+      style += `color: ${cssColor(data.color)};`;
     }
     if (data.fontWeight) {
-      style.fontWeight = getFontWeightStyle(data);
+      style += `font-weight: ${getFontWeightStyle(data)};`;
     }
     if (data.fontStyle) {
-      style.fontStyle = getFontStyleStyle(data);
+      style += `font-style: ${getFontStyleStyle(data)};`;
     }
     if (data.letterSpacing) {
-      style.letterSpacing = data.letterSpacing;
+      style += `letter-spacing: ${data.letterSpacing};`;
     }
     if (data.wordSpacing) {
-      style.wordSpacing = data.wordSpacing;
+      style += `word-spacing: ${data.wordSpacing};`;
     }
     if (data.textBaseline) {
-      style.alignmentBaseline = getBaselineStyle(data);
+      style += `alignment-baseline: ${getBaselineStyle(data)};`;
     }
     if (data.height) {
-      style.height = data.height;
+      style += `height: ${data.height};`;
     }
     if (data.backgroundColor != null) {
-      style.backgroundColor = cssColor(data.backgroundColor);
+      style += `background-color: ${cssColor(data.backgroundColor)};`;
     }
   }
   return style;

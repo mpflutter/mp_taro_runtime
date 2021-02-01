@@ -1,26 +1,61 @@
 import React, { Component } from "react";
+import Taro from "@tarojs/taro";
 import "./index.scss";
-import { Router } from "../../router";
 
-import { Body } from "../../components/mpcore/components/body";
 import { MPCore } from "../../components/mpcore/mpcore";
 import { cssColor } from "../../components/mpcore/utils/color";
 import { View } from "@tarojs/components";
+import { ScrollListener } from "../..//components/mpcore/scroll_listener";
+import { getCurrentInstance } from "@tarojs/taro";
+import { Router } from "../../components/app";
 
 export default class Index extends Component {
-  state: { data?: any } = {};
+  isShowed = false;
+  state: { routeIndex?: number; data?: any } = {};
 
   componentDidMount() {
-    Router.instance.routes[0].addListener("data-changed", (data) => {
-      this.setState({ data: data });
+    const routeIndex = getCurrentInstance().router?.params?.routeIndex ?? 0;
+    this.setState({
+      routeIndex,
     });
-    this.setState({ data: Router.instance.routes[0].data });
+    Router.instance.routes[routeIndex].addListener("data-changed", (data) => {
+      this.setState({ data: data });
+      this.resetNavigationTitle();
+    });
+    this.setState({ data: Router.instance.routes[routeIndex].data });
+  }
+
+  componentDidShow() {
+    const routeIndex = getCurrentInstance().router?.params?.routeIndex ?? 0;
+    if (routeIndex < Router.instance.routes.length - 1) {
+      Router.triggerPop();
+    }
+    this.isShowed = true;
+    this.resetNavigationTitle();
+  }
+
+  componentDidHide() {
+    this.isShowed = false;
+  }
+
+  resetNavigationTitle() {
+    if (!this.isShowed) return;
+    const routeIndex = getCurrentInstance().router?.params?.routeIndex ?? 0;
+    if (routeIndex < Router.instance.routes.length - 1) {
+      return;
+    }
+    Taro.setNavigationBarTitle({
+      title: this.state.data?.scaffold?.attributes?.name ?? "",
+    });
+  }
+
+  onReachBottom() {
+    ScrollListener.instance.onReachBottom();
   }
 
   render() {
     return (
       <View
-        // id="app"
         style={{
           width: "100vw",
           height: this.state.data?.isListBody === true ? "unset" : "100vh",
@@ -29,11 +64,7 @@ export default class Index extends Component {
             : "unset",
         }}
       >
-        {/* {this.state.data?.header
-          ? MPCore.render(this.state.data?.header)
-          : null}
-        {this.state.data?.tabBar ? MPCore.render(this.state.data.tabBar) : null} */}
-        {this.state.data ? <Body isListBody={this.state.data?.isListBody} data={this.state.data.body} /> : null}
+        {MPCore.render(this.state.data?.scaffold)}
       </View>
     );
   }

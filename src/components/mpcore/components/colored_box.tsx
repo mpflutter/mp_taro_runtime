@@ -9,7 +9,9 @@ export class ColoredBox extends Component<{ data: MPComponentsProps }> {
     return (
       <DivContextProvider
         style={{
-          backgroundColor: cssColor(this.props.data.attributes.color)
+          minWidth: "-webkit-fill-available",
+          minHeight: "100%",
+          backgroundColor: cssColor(this.props.data.attributes.color),
         }}
       >
         {this.props.children}

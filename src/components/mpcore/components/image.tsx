@@ -3,37 +3,19 @@ import React from "react";
 import { flutterBase } from "../../app";
 import { MPComponentsProps } from "../component";
 import { DivContextConsumer } from "./div_context";
+import { Image as TaroImage } from "@tarojs/components";
 
 export class Image extends Component<{ data: MPComponentsProps }> {
   render() {
     return (
       <DivContextConsumer
-        el="img"
+        el={TaroImage}
         style={{
           display: "flex",
           minWidth: "100%",
-          maxWidth: "100%",
           minHeight: "100%",
+          maxWidth: "100%",
           maxHeight: "100%",
-          objectFit: (() => {
-            if (!this.props.data.attributes.fit) return "cover";
-            switch (this.props.data.attributes.fit) {
-              case "BoxFit.fill":
-                return "fill";
-              case "BoxFit.contain":
-                return "contain";
-              case "BoxFit.cover":
-                return "cover";
-              case "BoxFit.fitWidth":
-                return "scale-down";
-              case "BoxFit.fitHeight":
-                return "scale-down";
-              case "BoxFit.none":
-                return "none";
-              default:
-                return "contain";
-            }
-          })()
         }}
         src={(() => {
           if (this.props.data.attributes.src) {
@@ -44,6 +26,25 @@ export class Image extends Component<{ data: MPComponentsProps }> {
             } else {
               return `${flutterBase}/assets/${this.props.data.attributes.assetName}`;
             }
+          }
+        })()}
+        mode={(() => {
+          if (!this.props.data.attributes.fit) return "aspectFill";
+          switch (this.props.data.attributes.fit) {
+            case "BoxFit.fill":
+              return "scaleToFill";
+            case "BoxFit.contain":
+              return "aspectFit";
+            case "BoxFit.cover":
+              return "aspectFill";
+            case "BoxFit.fitWidth":
+              return "widthFix";
+            case "BoxFit.fitHeight":
+              return "heightFix";
+            case "BoxFit.none":
+              return "none";
+            default:
+              return "aspectFit";
           }
         })()}
       ></DivContextConsumer>

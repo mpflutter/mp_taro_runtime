@@ -30,6 +30,11 @@ import { ComponentType, createElement, ReactElement } from "react";
 import { MPComponentsProps } from "./component";
 import { MPPlugin } from "./plugin";
 import { TabBar } from "./components/tab_bar";
+import { GridView, SliverWaterfallItem } from "./components/grid_view";
+import { SliverGrid } from "./components/sliver_grid";
+import { Wrap } from "./components/wrap";
+import { SliverPersistentHeader } from "./components/sliver_persistent_header";
+import { MPKit } from "./mpkit/mpkit";
 
 export class MPCore {
   static components: { [key: string]: ComponentType<any> } = {
@@ -59,9 +64,15 @@ export class MPCore {
     icon: Icon,
     custom_scroll_view: CustomScrollView,
     sliver_list: SliverList,
+    sliver_grid: SliverGrid,
     div: Div,
     editable_text: EditableText,
     tab_bar: TabBar,
+    grid_view: GridView,
+    wrap: Wrap,
+    sliver_waterfall_item: SliverWaterfallItem,
+    sliver_persistent_header: SliverPersistentHeader,
+    ...MPKit.components,
   };
 
   static plugins: MPPlugin[] = [];
@@ -74,7 +85,7 @@ export class MPCore {
   }
 
   static render(data: MPComponentsProps, key?: string): ReactElement | null {
-    if (!this.components[data.name]) return null;
+    if (!data || !this.components[data.name]) return null;
     return createElement(
       this.components[data.name],
       { key, data: data } as any,

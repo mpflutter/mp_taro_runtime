@@ -1,0 +1,12 @@
+comp {
+  display: contents;
+}
+
+comp > image {
+  height: 100%;
+}
+
+image {
+  width: unset;
+  height: unset;
+}

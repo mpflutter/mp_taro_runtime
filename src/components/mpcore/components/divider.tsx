@@ -3,11 +3,12 @@ import { MPComponentsProps } from "../component";
 import { cssColor } from "../utils/color";
 import { cssHeight } from "../utils/geometry";
 import React from "react";
+import { View } from "@tarojs/components";
 
 export class Divider extends Component<{ data: MPComponentsProps }> {
   render() {
     return (
-      <div
+      <View
         style={{
           display: "flex",
           minWidth: "100%",
@@ -17,7 +18,7 @@ export class Divider extends Component<{ data: MPComponentsProps }> {
           alignItems: "center",
         }}
       >
-        <div
+        <View
           style={{
             display: "flex",
             minWidth: "100%",
@@ -31,8 +32,8 @@ export class Divider extends Component<{ data: MPComponentsProps }> {
             borderTopStyle: "solid",
             borderTopColor: cssColor(this.props.data.attributes.color),
           }}
-        ></div>
-      </div>
+        ></View>
+      </View>
     );
   }
 }
