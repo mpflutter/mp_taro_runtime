@@ -2,10 +2,7 @@ import Taro, { Events } from "@tarojs/taro";
 
 import * as EventEmitter from "eventemitter3";
 
-export let flutterBase = "https://h5.yidoutang.com/v6";
-export const flutterFonts = [
-  { name: "MaterialIcons", url: "MaterialIcons-Regular.otf" },
-];
+export let flutterBase = "http://127.0.0.1:9898";
 
 const appEvents = new Events();
 
@@ -14,8 +11,12 @@ export class App {
 
   static callbackChannel: (message: string) => void = () => {};
 
+  mpFlutterIsDebug() {
+    return true;
+  }
+
   start() {
-    if (true) {
+    if (this.mpFlutterIsDebug()) {
       this.setupDartChannel();
     } else {
       this.setupJSChannel();
@@ -23,9 +24,9 @@ export class App {
   }
 
   setupDartChannel() {
-    flutterBase = `http://192.168.1.209:9898`;
+    flutterBase = `http://127.0.0.1:9898`;
     Taro.connectSocket({
-      url: "ws://192.168.1.209:9898/",
+      url: "ws://127.0.0.1:9898/",
     });
     Taro.onSocketOpen(() => {});
     Taro.onSocketClose(() => {

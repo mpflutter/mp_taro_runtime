@@ -3,3 +3,4 @@ let navigator = undefined;
 let window = flutterWindow;
 let self = flutterWindow;
 
+mpFlutterDartCode("mpFlutterDartCode");
