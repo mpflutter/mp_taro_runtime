@@ -1,52 +1,47 @@
 import { Component } from "react";
 import { MPComponentsProps } from "../component";
-import { cssPadding } from "../utils/geometry";
-import { DivContextConsumer } from "./div_context";
-import React from "react";
+import { cssConstraints, cssPadding } from "../utils/geometry";
 import { View } from "@tarojs/components";
+import React from "react";
 
 export class ListView extends Component<{ data: MPComponentsProps }> {
-  render() {    
-    const listViewPadding = this.props.data.attributes.padding
-      ? cssPadding(this.props.data.attributes.padding)
-      : {};
-    const paddingLeft = listViewPadding.paddingLeft
-      ? parseInt(listViewPadding.paddingLeft)
-      : 0;
-    const paddingRight = listViewPadding.paddingRight
-      ? parseInt(listViewPadding.paddingRight)
-      : 0;
-    const paddingTop = listViewPadding.paddingTop
-      ? parseInt(listViewPadding.paddingTop)
-      : 0;
-    const paddingBottom = listViewPadding.paddingBottom
-      ? parseInt(listViewPadding.paddingBottom)
-      : 0;
+  render() {
+    let constraints = cssConstraints(this.props.data.constraints);
+    if (this.props.data.attributes.isRoot) {
+      if (this.props.data.attributes.scrollDirection === "Axis.horizontal") {
+        constraints.maxWidth = "unset";
+      } else {
+        constraints.maxHeight = "unset";
+      }
+    }
     return (
-      <DivContextConsumer>
-        <View
-          style={{
-            display: "flex",
-            flexDirection:
-              this.props.data.attributes.scrollDirection === "Axis.horizontal"
-                ? "row"
-                : "column",
-            justifyContent: "flex-start",
-            alignItems: "stretch",
-            minWidth:
-              this.props.data.attributes.scrollDirection !== "Axis.horizontal"
-                ? `calc(100% - ${paddingLeft}px - ${paddingRight}px)`
-                : "unset",
-            minHeight:
-              this.props.data.attributes.scrollDirection === "Axis.horizontal"
-                ? `calc(100% - ${paddingTop}px - ${paddingBottom}px)`
-                : "unset",
-            ...cssPadding(this.props.data.attributes.padding),
-          }}
-        >
-          {this.props.children}
-        </View>
-      </DivContextConsumer>
+      <View
+        style={{
+          display: "flex",
+          flexDirection:
+            this.props.data.attributes.scrollDirection === "Axis.horizontal"
+              ? "row"
+              : "column",
+          justifyContent: "flex-start",
+          alignItems: "stretch",
+          ...cssPadding(this.props.data.attributes.padding),
+          ...constraints,
+          overflowX:
+            this.props.data.attributes.scrollDirection === "Axis.horizontal"
+              ? this.props.data.attributes.isRoot
+                ? "unset"
+                : "scroll"
+              : "hidden",
+          overflowY:
+            this.props.data.attributes.scrollDirection !== "Axis.horizontal"
+              ? this.props.data.attributes.isRoot
+                ? "unset"
+                : "scroll"
+              : "hidden",
+        }}
+      >
+        {this.props.children}
+      </View>
     );
   }
 }

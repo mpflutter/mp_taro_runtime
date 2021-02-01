@@ -1,10 +1,16 @@
 import { Component } from "react";
 import React from "react";
+import { cssConstraints } from "../utils/geometry";
+import { MPComponentsProps } from "../component";
 import { View } from "@tarojs/components";
 
-export class CustomScrollView extends Component {
-
+export class CustomScrollView extends Component<{ data: MPComponentsProps }> {
   render() {
+    let constraints = cssConstraints(this.props.data.constraints);
+    if (this.props.data.attributes.isRoot) {
+      constraints.maxHeight = "unset";
+    }
+
     return (
       <View
         style={{
@@ -12,7 +18,7 @@ export class CustomScrollView extends Component {
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "stretch",
-          minWidth: "100%",
+          ...constraints,
         }}
       >
         {this.props.children}

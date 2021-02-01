@@ -1,7 +1,8 @@
 import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
-import { DivContextConsumer } from "./div_context";
+import { cssConstraints } from "../utils/geometry";
+import { View } from "@tarojs/components";
 
 export class Align extends Component<{ data: MPComponentsProps }> {
   alignStyles() {
@@ -46,24 +47,19 @@ export class Align extends Component<{ data: MPComponentsProps }> {
     ) {
       alignItems = "flex-end";
     }
-
-    if (this.props.data.children?.[0]?.name === "flex") {
-      alignItems = "stretch";
-    }
-    return { display: "flex", justifyContent, alignItems };
+    return { display: "flex", flexDirection: "row", justifyContent, alignItems };
   }
 
   render() {
     return (
-      <DivContextConsumer
+      <View
         style={{
-          minWidth: "100%",
-          minHeight: "100%",
-          ...this.alignStyles()
+          ...cssConstraints(this.props.data.constraints),
+          ...this.alignStyles(),
         }}
       >
         {this.props.children}
-      </DivContextConsumer>
+      </View>
     );
   }
 }

@@ -1,13 +1,12 @@
 import { Component } from "react";
 import React from "react";
-import Taro from "@tarojs/taro";
 import {
   renderSliverGridDelegateWithFixedCrossAxisCount,
   renderSliverGridDelegateWithMaxCrossAxisExtent,
   renderSliverWaterfallDelegate,
 } from "./grid_waterfall_layout";
 import { MPComponentsProps } from "../component";
-import { cssPadding } from "../utils/geometry";
+// import { cssPadding } from "../utils/geometry";
 import { View } from "@tarojs/components";
 
 export class SliverGrid extends Component<{ data: MPComponentsProps }> {
@@ -21,15 +20,15 @@ export class SliverGrid extends Component<{ data: MPComponentsProps }> {
         }}
       >
         {(() => {
-          const gridViewPadding = this.props.data.attributes.padding
-            ? cssPadding(this.props.data.attributes.padding)
-            : {};
-          const paddingLeft = gridViewPadding.paddingLeft
-            ? parseInt(gridViewPadding.paddingLeft)
-            : 0;
-          const paddingRight = gridViewPadding.paddingRight
-            ? parseInt(gridViewPadding.paddingRight)
-            : 0;
+          // const gridViewPadding = this.props.data.attributes.padding
+          //   ? cssPadding(this.props.data.attributes.padding)
+          //   : {};
+          // const paddingLeft = gridViewPadding.paddingLeft
+          //   ? parseInt(gridViewPadding.paddingLeft)
+          //   : 0;
+          // const paddingRight = gridViewPadding.paddingRight
+          //   ? parseInt(gridViewPadding.paddingRight)
+          //   : 0;
           if (
             this.props.data.attributes.gridDelegate?.classname ===
             "SliverGridDelegateWithFixedCrossAxisCount"
@@ -39,10 +38,7 @@ export class SliverGrid extends Component<{ data: MPComponentsProps }> {
               undefined,
               this.props.children as any[],
               {
-                parentWidth:
-                  Taro.getSystemInfoSync().windowWidth -
-                  paddingLeft -
-                  paddingRight,
+                parentWidth: parseInt(this.props.data.attributes.width),
               }
             );
           } else if (
@@ -54,10 +50,7 @@ export class SliverGrid extends Component<{ data: MPComponentsProps }> {
               undefined,
               this.props.children as any[],
               {
-                parentWidth:
-                  Taro.getSystemInfoSync().windowWidth -
-                  paddingLeft -
-                  paddingRight,
+                parentWidth: parseInt(this.props.data.attributes.width),
               }
             );
           } else if (
@@ -69,10 +62,7 @@ export class SliverGrid extends Component<{ data: MPComponentsProps }> {
               undefined,
               this.props.children as any[],
               {
-                parentWidth:
-                  Taro.getSystemInfoSync().windowWidth -
-                  paddingLeft -
-                  paddingRight,
+                parentWidth: parseInt(this.props.data.attributes.width),
               }
             );
           } else {

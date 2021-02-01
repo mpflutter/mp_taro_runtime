@@ -1,18 +1,18 @@
 import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
-import { DivContextProvider } from "./div_context";
+import { View } from "@tarojs/components";
 
 export class Opacity extends Component<{ data: MPComponentsProps }> {
   render() {
     return (
-      <DivContextProvider
+      <View
         style={{
-          opacity: this.props.data.attributes.opacity
+          opacity: this.props.data.attributes.opacity,
         }}
       >
         {this.props.children}
-      </DivContextProvider>
+      </View>
     );
   }
 }

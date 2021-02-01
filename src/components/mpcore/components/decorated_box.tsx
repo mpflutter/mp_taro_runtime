@@ -3,7 +3,7 @@ import React from "react";
 import { MPComponentsProps } from "../component";
 import { cssBorder } from "../utils/border";
 import { cssColor, cssGradient } from "../utils/color";
-import { cssBorderRadius, cssOffset } from "../utils/geometry";
+import { cssBorderRadius, cssConstraints, cssOffset } from "../utils/geometry";
 import { flutterBase } from "../../app";
 import { View } from "@tarojs/components";
 
@@ -67,7 +67,12 @@ export class DecoratedBox extends Component<{ data: MPComponentsProps }> {
       this.props.data.attributes.position === "DecorationPosition.foreground"
     ) {
       return (
-        <View style={{ position: "relative" }}>
+        <View
+          style={{
+            position: "relative",
+            ...cssConstraints(this.props.data.constraints),
+          }}
+        >
           {this.props.children}
           <View
             style={{
@@ -85,9 +90,7 @@ export class DecoratedBox extends Component<{ data: MPComponentsProps }> {
       return (
         <View
           style={{
-            display: "flex",
-            minWidth: "-webkit-fill-available",
-            minHeight: "100%",
+            ...cssConstraints(this.props.data.constraints),
             ...this.renderDecoration(),
           }}
         >

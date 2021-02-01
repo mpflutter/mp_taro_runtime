@@ -1,18 +1,18 @@
 import { Component } from "react";
 import React from "react";
-import { DivContextProvider } from "./div_context";
+import { View } from "@tarojs/components";
 
 export class ClipOval extends Component {
   render() {
     return (
-      <DivContextProvider
+      <View
         style={{
           borderRadius: "50%",
-          overflow: "hidden"
+          overflow: "hidden",
         }}
       >
         {this.props.children}
-      </DivContextProvider>
+      </View>
     );
   }
 }

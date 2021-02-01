@@ -1,7 +1,7 @@
-import { View } from "@tarojs/components";
-import React from "react";
 import { Component } from "react";
 import { MPComponentsProps } from "../component";
+import { View } from "@tarojs/components";
+import React from "react";
 
 export class SliverPersistentHeader extends Component<{
   data: MPComponentsProps;

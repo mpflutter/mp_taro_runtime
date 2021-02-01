@@ -8,6 +8,7 @@ import { View } from "@tarojs/components";
 import { ScrollListener } from "../..//components/mpcore/scroll_listener";
 import { getCurrentInstance } from "@tarojs/taro";
 import { Router } from "../../components/app";
+import { TextMeasurer } from "../../components/mpcore/text_measurer";
 
 export default class Index extends Component {
   isShowed = false;
@@ -65,6 +66,7 @@ export default class Index extends Component {
         }}
       >
         {MPCore.render(this.state.data?.scaffold)}
+        <TextMeasurer scaffold={this.state.data?.scaffold} />
       </View>
     );
   }

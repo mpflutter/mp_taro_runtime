@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { MPComponentsProps } from "../component";
-import React from "react";
 
 export class Offstage extends Component<{ data: MPComponentsProps }> {
   render() {

@@ -1,18 +1,18 @@
 import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
-import { DivContextProvider } from "./div_context";
+import { View } from "@tarojs/components";
 
 export class Transform extends Component<{ data: MPComponentsProps }> {
   render() {
     return (
-      <DivContextProvider
+      <View
         style={{
-          transform: this.props.data.attributes.transform
+          transform: this.props.data.attributes.transform,
         }}
       >
         {this.props.children}
-      </DivContextProvider>
+      </View>
     );
   }
 }

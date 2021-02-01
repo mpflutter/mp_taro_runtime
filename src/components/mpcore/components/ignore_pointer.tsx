@@ -1,20 +1,20 @@
 import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
-import { DivContextProvider } from "./div_context";
+import { View } from "@tarojs/components";
 
 export class IgnorePointer extends Component<{ data: MPComponentsProps }> {
   render() {
     return (
-      <DivContextProvider
+      <View
         style={{
           pointerEvents: this.props.data.attributes.ignoring
             ? "none"
-            : undefined
+            : undefined,
         }}
       >
         {this.props.children}
-      </DivContextProvider>
+      </View>
     );
   }
 }

@@ -15,7 +15,7 @@ export class App {
   static callbackChannel: (message: string) => void = () => {};
 
   start() {
-    if (false) {
+    if (true) {
       this.setupDartChannel();
     } else {
       this.setupJSChannel();
@@ -23,9 +23,9 @@ export class App {
   }
 
   setupDartChannel() {
-    flutterBase = `http://10.0.1.22:9898`;
+    flutterBase = `http://192.168.1.209:9898`;
     Taro.connectSocket({
-      url: "ws://10.0.1.22:9898/",
+      url: "ws://192.168.1.209:9898/",
     });
     Taro.onSocketOpen(() => {});
     Taro.onSocketClose(() => {

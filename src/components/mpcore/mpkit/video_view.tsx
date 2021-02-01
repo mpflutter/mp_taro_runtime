@@ -1,19 +1,18 @@
 import { Component } from "react";
 import { MPComponentsProps } from "../component";
-// import { cssConstraints } from "../utils/geometry";
+import { cssConstraints } from "../utils/geometry";
 
-export class MPWebView extends Component<{ data: MPComponentsProps }> {
+export class MPVideoView extends Component<{ data: MPComponentsProps }> {
   render() {
     return null;
     // return (
-    //   <iframe
-    //     title="mp_web_view"
+    //   <video
     //     src={this.props.data.attributes.url}
+    //     controls={true}
     //     style={{
-    //       border: "none",
     //       ...cssConstraints(this.props.data.constraints),
     //     }}
-    //   ></iframe>
+    //   ></video>
     // );
   }
 }

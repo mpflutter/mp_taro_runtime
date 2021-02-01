@@ -1,15 +1,35 @@
 import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
-import { cssTextAlign, cssTextStyle } from "../utils/text";
+import { cssTextAlign, cssTextStyleString } from "../utils/text";
 import { MPCore } from "../mpcore";
+import { cssConstraints } from "../utils/geometry";
 import { View, RichText as TaroRichText } from "@tarojs/components";
 
 export class RichText extends Component<{ data: MPComponentsProps }> {
+  shouldComponentUpdate(nextProps: { data: MPComponentsProps }) {
+    if (nextProps.data.attributes.measureId) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
     let style = {};
+    let constraints = cssConstraints(this.props.data.constraints);
+    if (constraints.minWidth === "100%") {
+      constraints.minWidth = "unset";
+    }
+    if (constraints.minHeight === "100%") {
+      constraints.minHeight = "unset";
+    }
+    if (this.props.data.constraints?.measuring) {
+      constraints.minWidth = "unset";
+      constraints.minHeight = "unset";
+    }
     if (this.props.data.attributes.maxLines) {
       style = {
+        ...constraints,
         ...style,
         ...{
           overflow: "hidden",
@@ -17,9 +37,7 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
           textAlign: cssTextAlign(this.props.data.attributes.textAlign),
           display: "-webkit-box",
           WebkitLineClamp: this.props.data.attributes.maxLines.toString(),
-          "-webkit-line-clamp": this.props.data.attributes.maxLines.toString(),
           WebkitBoxOrient: "vertical",
-          "-webkit-box-orient": "vertical",
           fontSize: "11px",
           overflowWrap: "anywhere",
           wordBreak: "break-all",
@@ -33,6 +51,7 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
       };
     } else {
       style = {
+        ...constraints,
         ...style,
         ...{
           overflow: "hidden",
@@ -40,9 +59,7 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
           textAlign: cssTextAlign(this.props.data.attributes.textAlign),
           display: "-webkit-box",
           WebkitLineClamp: "99999",
-          "-webkit-line-clamp": "99999",
           WebkitBoxOrient: "vertical",
-          "-webkit-box-orient": "vertical",
           fontSize: "11px",
           overflowWrap: "anywhere",
           wordBreak: "break-all",
@@ -65,26 +82,16 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
         <TaroRichText nodes={content} />
       </View>
     );
-    // return (
-    //   <DivContextConsumer style={style}>
-    //     {this.props.data.children?.map((it, idx) => {
-    //       return jsxComponentFromSpan(it, idx);
-    //     })}
-    //   </DivContextConsumer>
-    // );
   }
 }
 
-const jsxComponentFromSpan = (it: any, idx: number) => {
+const jsxComponentFromSpan = (it: any, _: number) => {
   if (it.name === "text_span") {
     return TextSpan.render(it);
-    // return <TextSpan key={`idx_${idx}`} data={it} />;
   } else if (it.name === "widget_span") {
     return ``;
-    // return <WidgetSpan key={`idx_${idx}`} data={it} />;
   } else {
     return ``;
-    // return null;
   }
 };
 
@@ -95,7 +102,7 @@ export class TextSpan extends Component<any> {
         .map((it, idx) => jsxComponentFromSpan(it, idx))
         .join("");
     } else {
-      return `<span style="${cssTextStyle(data.attributes.style)}">${
+      return `<span style="${cssTextStyleString(data.attributes.style)}">${
         data.attributes.text
       }</span>`;
     }

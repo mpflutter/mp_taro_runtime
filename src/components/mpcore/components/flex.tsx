@@ -1,12 +1,29 @@
 import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
-import { DivContextConsumer } from "./div_context";
+import { cssConstraints, cssHeight, cssWidth } from "../utils/geometry";
+import { View } from "@tarojs/components";
 
 export class Flex extends Component<{ data: MPComponentsProps }> {
   render() {
+    let constraints = cssConstraints(this.props.data.constraints);
+    if (
+      this.props.data.attributes.mainAxisSize === "MainAxisSize.max" &&
+      this.props.data.attributes.direction === "Axis.vertical"
+    ) {
+      constraints.minHeight = this.props.data.constraints?.minHeight
+        ? cssHeight(this.props.data.constraints.maxHeight)
+        : "unset";
+    } else if (
+      this.props.data.attributes.mainAxisSize === "MainAxisSize.max" &&
+      this.props.data.attributes.direction === "Axis.horizontal"
+    ) {
+      constraints.minWidth = this.props.data.constraints?.minWidth
+        ? cssWidth(this.props.data.constraints.maxWidth)
+        : "unset";
+    }
     return (
-      <DivContextConsumer
+      <View
         style={{
           display: "flex",
           flexDirection: (() => {
@@ -51,26 +68,11 @@ export class Flex extends Component<{ data: MPComponentsProps }> {
                 return "flex-start";
             }
           })(),
-          minWidth: (() => {
-            if (
-              this.props.data.attributes.direction === "Axis.horizontal" &&
-              this.props.data.attributes.mainAxisSize === "MainAxisSize.max"
-            ) {
-              return "100%";
-            }
-          })(),
-          minHeight: (() => {
-            if (
-              this.props.data.attributes.direction === "Axis.vertical" &&
-              this.props.data.attributes.mainAxisSize === "MainAxisSize.max"
-            ) {
-              return "100%";
-            }
-          })(),
+          ...constraints,
         }}
       >
         {this.props.children}
-      </DivContextConsumer>
+      </View>
     );
   }
 }

@@ -2,12 +2,12 @@ import { Component } from "react";
 import React from "react";
 import { MPComponentsProps } from "../component";
 import { cssWidth } from "../utils/geometry";
-import { DivContextConsumer } from "./div_context";
+import { View } from "@tarojs/components";
 
 export class Positioned extends Component<{ data: MPComponentsProps }> {
   render() {
     return (
-      <DivContextConsumer
+      <View
         style={{
           display: "flex",
           position: "absolute",
@@ -20,7 +20,7 @@ export class Positioned extends Component<{ data: MPComponentsProps }> {
         }}
       >
         {this.props.children}
-      </DivContextConsumer>
+      </View>
     );
   }
 }

@@ -24,7 +24,45 @@ function getBaselineStyle(data: any) {
   return undefined;
 }
 
-export function cssTextStyle(data: any): string {
+export function cssTextStyle(data: any): CSSProperties {
+  let style: CSSProperties = {};
+
+  if (data != null) {
+    if (data.fontFamily) {
+      style.fontFamily = data.fontFamily;
+    }
+    if (data.fontSize != null) {
+      style.fontSize = `${(data.fontSize ?? 14).toString()}px`;
+    }
+    if (data.color != null) {
+      style.color = cssColor(data.color);
+    }
+    if (data.fontWeight) {
+      style.fontWeight = getFontWeightStyle(data);
+    }
+    if (data.fontStyle) {
+      style.fontStyle = getFontStyleStyle(data);
+    }
+    if (data.letterSpacing) {
+      style.letterSpacing = data.letterSpacing;
+    }
+    if (data.wordSpacing) {
+      style.wordSpacing = data.wordSpacing;
+    }
+    if (data.textBaseline) {
+      style.alignmentBaseline = getBaselineStyle(data);
+    }
+    if (data.height) {
+      style.height = data.height;
+    }
+    if (data.backgroundColor != null) {
+      style.backgroundColor = cssColor(data.backgroundColor);
+    }
+  }
+  return style;
+}
+
+export function cssTextStyleString(data: any): string {
   let style = ``;
 
   if (data != null) {

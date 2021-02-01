@@ -6,17 +6,37 @@ import {
   renderSliverGridDelegateWithMaxCrossAxisExtent,
   renderSliverWaterfallDelegate,
 } from "./grid_waterfall_layout";
+import { cssConstraints } from "../utils/geometry";
 import { View } from "@tarojs/components";
 
 export class GridView extends Component<{ data: MPComponentsProps }> {
-
   render() {
+    let constraints = cssConstraints(this.props.data.constraints);
+    if (this.props.data.attributes.isRoot) {
+      if (this.props.data.attributes.scrollDirection === "Axis.horizontal") {
+        constraints.maxWidth = "unset";
+      } else {
+        constraints.maxHeight = "unset";
+      }
+    }
     return (
       <View
         style={{
           display: "flex",
           flexWrap: "wrap",
-          minWidth: "100%",
+          ...constraints,
+          overflowX:
+            this.props.data.attributes.scrollDirection === "Axis.horizontal"
+              ? this.props.data.attributes.isRoot
+                ? "unset"
+                : "scroll"
+              : "hidden",
+          overflowY:
+            this.props.data.attributes.scrollDirection !== "Axis.horizontal"
+              ? this.props.data.attributes.isRoot
+                ? "unset"
+                : "scroll"
+              : "hidden",
         }}
       >
         {(() => {

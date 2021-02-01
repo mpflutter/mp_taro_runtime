@@ -1,7 +1,6 @@
 import { cssPadding } from "../utils/geometry";
-import { DivContextProvider } from "./div_context";
-import React from "react";
 import { View } from "@tarojs/components";
+import React from "react";
 
 export interface SliverGridDelegateWithFixedCrossAxisCount {
   mainAxisSpacing: number;
@@ -68,11 +67,9 @@ export const renderSliverGridDelegateWithFixedCrossAxisCount = (
           marginBottom,
         }}
       >
-        <DivContextProvider
-          style={{ display: "flex", minWidth: "100%", minHeight: "100%" }}
-        >
+        <View style={{ display: "flex", minWidth: "100%", minHeight: "100%" }}>
           {it}
-        </DivContextProvider>
+        </View>
       </View>
     );
   });
@@ -107,7 +104,7 @@ export const renderSliverGridDelegateWithMaxCrossAxisExtent = (
     ? parseInt(gridViewPadding.paddingBottom)
     : 0;
 
-  const crossAxisCount = Math.ceil(
+  const crossAxisCount = Math.floor(
     (clientWidth - paddingLeft - paddingRight) / delegate.maxCrossAxisExtent
   );
 
@@ -145,11 +142,9 @@ export const renderSliverGridDelegateWithMaxCrossAxisExtent = (
           marginBottom,
         }}
       >
-        <DivContextProvider
-          style={{ display: "flex", minWidth: "100%", minHeight: "100%" }}
-        >
+        <View style={{ display: "flex", minWidth: "100%", minHeight: "100%" }}>
           {it}
-        </DivContextProvider>
+        </View>
       </View>
     );
   });
@@ -256,11 +251,11 @@ export const renderSliverWaterfallDelegate = (
               height: layouts[idx].height + paddingBottom + "px",
             }}
           >
-            <DivContextProvider
+            <View
               style={{ display: "flex", minWidth: "100%", minHeight: "100%" }}
             >
               {it}
-            </DivContextProvider>
+            </View>
           </View>
         );
       })}
