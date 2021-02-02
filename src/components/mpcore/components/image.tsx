@@ -4,9 +4,11 @@ import { flutterBase } from "../../app";
 import { MPComponentsProps } from "../component";
 import { cssConstraints, cssHeight, cssWidth } from "../utils/geometry";
 import { Image as TaroImage } from "@tarojs/components";
+import AppConfig from "../../../app.config";
 
 export class Image extends Component<{ data: MPComponentsProps }> {
   render() {
+    let assetsBase = AppConfig.mp.assetsServer ?? flutterBase;
     let imgConstraints: any = cssConstraints(this.props.data.constraints);
     imgConstraints.minWidth = imgConstraints.maxWidth;
     imgConstraints.minHeight = imgConstraints.maxHeight;
@@ -49,9 +51,9 @@ export class Image extends Component<{ data: MPComponentsProps }> {
             return this.props.data.attributes.src;
           } else if (this.props.data.attributes.assetName) {
             if (this.props.data.attributes.assetPkg) {
-              return `${flutterBase}/assets/packages/${this.props.data.attributes.assetPkg}/${this.props.data.attributes.assetName}`;
+              return `${assetsBase}/assets/packages/${this.props.data.attributes.assetPkg}/${this.props.data.attributes.assetName}`;
             } else {
-              return `${flutterBase}/assets/${this.props.data.attributes.assetName}`;
+              return `${assetsBase}/assets/${this.props.data.attributes.assetName}`;
             }
           }
         })()}

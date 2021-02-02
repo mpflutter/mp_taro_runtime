@@ -1,6 +1,6 @@
 import Taro, { Events } from "@tarojs/taro";
-
 import * as EventEmitter from "eventemitter3";
+import AppConfig from "../app.config";
 
 export let flutterBase = "http://127.0.0.1:9898";
 
@@ -12,7 +12,7 @@ export class App {
   static callbackChannel: (message: string) => void = () => {};
 
   mpFlutterIsDebug() {
-    return true;
+    return AppConfig.mp.isDebug;
   }
 
   start() {
@@ -24,9 +24,9 @@ export class App {
   }
 
   setupDartChannel() {
-    flutterBase = `http://127.0.0.1:9898`;
+    flutterBase = `http://${AppConfig.mp.debugServer}:9898`;
     Taro.connectSocket({
-      url: "ws://127.0.0.1:9898/",
+      url: `ws://${AppConfig.mp.debugServer}:9898/`,
     });
     Taro.onSocketOpen(() => {});
     Taro.onSocketClose(() => {
