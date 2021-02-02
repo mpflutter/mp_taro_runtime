@@ -1,5 +1,4 @@
 import Taro, { Events } from "@tarojs/taro";
-import * as EventEmitter from "eventemitter3";
 import AppConfig from "../app.config";
 
 export let flutterBase = "http://127.0.0.1:9898";
@@ -106,12 +105,12 @@ export class App {
   }
 }
 
-export class Route extends EventEmitter {
+export class Route extends Events {
   data: any;
 
   update(data: any) {
     this.data = data;
-    this.emit("data-changed", data);
+    this.trigger("data-changed", data);
   }
 }
 

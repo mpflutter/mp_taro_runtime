@@ -87,7 +87,7 @@ export class TextMeasurer extends React.Component<
               style={{
                 position: "absolute",
                 left: "0px",
-                top: "0px",
+                top: "-9999px",
                 opacity: 0,
                 zIndex: -9999,
                 pointerEvents: "none",

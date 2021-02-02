@@ -19,7 +19,7 @@ export default class Index extends Component {
     this.setState({
       routeIndex,
     });
-    Router.instance.routes[routeIndex].addListener("data-changed", (data) => {
+    Router.instance.routes[routeIndex].on("data-changed", (data) => {
       this.setState({ data: data });
       this.resetNavigationTitle();
     });
