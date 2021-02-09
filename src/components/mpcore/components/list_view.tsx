@@ -24,7 +24,6 @@ export class ListView extends Component<{ data: MPComponentsProps }> {
               : "column",
           justifyContent: "flex-start",
           alignItems: "stretch",
-          ...cssPadding(this.props.data.attributes.padding),
           ...constraints,
           overflowX:
             this.props.data.attributes.scrollDirection === "Axis.horizontal"
@@ -40,7 +39,36 @@ export class ListView extends Component<{ data: MPComponentsProps }> {
               : "hidden",
         }}
       >
-        {this.props.children}
+        {this.props.data.attributes.padding ? (
+          <View
+            style={{
+              ...cssPadding(this.props.data.attributes.padding),
+              display: "flex",
+              flexDirection:
+                this.props.data.attributes.scrollDirection === "Axis.horizontal"
+                  ? "row"
+                  : "column",
+              justifyContent: "flex-start",
+              alignItems: "stretch",
+              overflowX:
+                this.props.data.attributes.scrollDirection === "Axis.horizontal"
+                  ? this.props.data.attributes.isRoot
+                    ? "unset"
+                    : "scroll"
+                  : "hidden",
+              overflowY:
+                this.props.data.attributes.scrollDirection !== "Axis.horizontal"
+                  ? this.props.data.attributes.isRoot
+                    ? "unset"
+                    : "scroll"
+                  : "hidden",
+            }}
+          >
+            {this.props.children}
+          </View>
+        ) : (
+          this.props.children
+        )}
       </View>
     );
   }
