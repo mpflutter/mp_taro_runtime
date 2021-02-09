@@ -15,7 +15,7 @@ const config = {
     patterns: [],
     options: {},
   },
-  framework: "nerv",
+  framework: "react",
   mini: {
     postcss: {
       pxtransform: {
@@ -36,16 +36,6 @@ const config = {
         },
       },
     },
-    webpackChain(chain, webpack) {
-      chain.merge({
-        resolve: {
-          alias: {
-            react: "nervjs",
-            "react-dom": "nervjs",
-          },
-        },
-      });
-    },
   },
   h5: {
     publicPath: "/",
@@ -62,16 +52,6 @@ const config = {
           generateScopedName: "[name]__[local]___[hash:base64:5]",
         },
       },
-    },
-    webpackChain(chain, webpack) {
-      chain.merge({
-        resolve: {
-          alias: {
-            react: "nervjs",
-            "react-dom": "nervjs",
-          },
-        },
-      });
     },
   },
 };
