@@ -53,6 +53,14 @@ export class App {
   setupJSChannel() {
     (global as any).flutterWindow = {
       ...global,
+      setTimeout: function (fn, ms) {
+        return global.setTimeout(fn, ms);
+      },
+      clearTimeout: function (handle) {
+        return global.clearTimeout(handle);
+      },
+      Taro,
+      Object,
       addEventListener: (
         eventType: string,
         callback: ({ data: string }) => void

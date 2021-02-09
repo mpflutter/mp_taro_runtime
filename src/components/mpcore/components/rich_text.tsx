@@ -36,8 +36,8 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
           textOverflow: "ellipsis",
           textAlign: cssTextAlign(this.props.data.attributes.textAlign),
           display: "-webkit-box",
-          WebkitLineClamp: this.props.data.attributes.maxLines.toString(),
-          WebkitBoxOrient: "vertical",
+          '-webkit-line-clamp': this.props.data.attributes.maxLines.toString(),
+          '-webkit-box-orient': "vertical",
           fontSize: "11px",
           overflowWrap: "anywhere",
           wordBreak: "break-all",
@@ -58,8 +58,8 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
           textOverflow: "ellipsis",
           textAlign: cssTextAlign(this.props.data.attributes.textAlign),
           display: "-webkit-box",
-          WebkitLineClamp: "99999",
-          WebkitBoxOrient: "vertical",
+          '-webkit-line-clamp': "99999",
+          '-webkit-box-orient': "vertical",
           fontSize: "11px",
           overflowWrap: "anywhere",
           wordBreak: "break-all",
@@ -78,9 +78,7 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
       })
       .join("");
     return (
-      <View style={style}>
-        <TaroRichText nodes={content} />
-      </View>
+      <TaroRichText nodes={content} style={style} />
     );
   }
 }
