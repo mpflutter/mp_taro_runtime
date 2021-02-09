@@ -52,6 +52,7 @@ export class App {
 
   setupJSChannel() {
     (global as any).flutterWindow = {
+      ...global,
       addEventListener: (
         eventType: string,
         callback: ({ data: string }) => void
@@ -79,7 +80,6 @@ export class App {
           } catch (error) {}
         },
       },
-      setTimeout: global.setTimeout,
       location: { href: "" },
       document: {
         body: {
@@ -88,10 +88,6 @@ export class App {
         },
       },
       devicePixelRatio: 1.0,
-      Taro,
-      TaroUtils: {},
-      JSON,
-      Object,
     };
     require("../dart/main.dart");
   }
