@@ -5,6 +5,7 @@ import { cssColor } from "../utils/color";
 import { cssWidth } from "../utils/geometry";
 import { View } from "@tarojs/components";
 import React from "react";
+import { TextMeasurer } from "../text_measurer";
 
 export class MPScaffold extends Component<{ data: MPComponentsProps }> {
   componentDidMount() {
@@ -13,6 +14,46 @@ export class MPScaffold extends Component<{ data: MPComponentsProps }> {
 
   componentDidUpdate() {
     this.setupDocumentTitle();
+  }
+
+  shouldComponentUpdate(nextProps: { data: MPComponentsProps }) {
+    let checkRichText: MPComponentsProps[] = [];
+    TextMeasurer.scanRichText(
+      nextProps.data.attributes.header,
+      checkRichText,
+      []
+    );
+    TextMeasurer.scanRichText(
+      nextProps.data.attributes.appBar,
+      checkRichText,
+      []
+    );
+    TextMeasurer.scanRichText(
+      nextProps.data.attributes.tabBar,
+      checkRichText,
+      []
+    );
+    TextMeasurer.scanRichText(
+      nextProps.data.attributes.body,
+      checkRichText,
+      []
+    );
+    TextMeasurer.scanRichText(
+      nextProps.data.attributes.bottomBar,
+      checkRichText,
+      []
+    );
+    TextMeasurer.scanRichText(
+      nextProps.data.attributes.floatingBody,
+      checkRichText,
+      []
+    );
+
+    if (checkRichText.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   setupDocumentTitle() {

@@ -1,11 +1,22 @@
 import { Component } from "react";
 import { MPComponentsProps } from "../component";
 import { cssConstraints } from "../utils/geometry";
-import { Swiper, SwiperItem } from "@tarojs/components";
+import { Swiper, SwiperItem, View } from "@tarojs/components";
 import React from "react";
 
 export class MPPageView extends Component<{ data: MPComponentsProps }> {
   render() {
+    if ((this.props.children as any[])?.length === 1) {
+      return (
+        <View
+          style={{
+            ...cssConstraints(this.props.data.constraints),
+          }}
+        >
+          {this.props.children}
+        </View>
+      );
+    }
     return (
       <Swiper
         style={{
