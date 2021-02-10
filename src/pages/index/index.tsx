@@ -6,30 +6,28 @@ import { MPCore } from "../../components/mpcore/mpcore";
 import { cssColor } from "../../components/mpcore/utils/color";
 import { View } from "@tarojs/components";
 import { ScrollListener } from "../..//components/mpcore/scroll_listener";
-import { getCurrentInstance } from "@tarojs/taro";
 import { Router } from "../../components/app";
 import { TextMeasurer } from "../../components/mpcore/text_measurer";
 
 export default class Index extends Component {
   isShowed = false;
-  state: { routeIndex?: number; data?: any } = {};
+  state: { routeId?: string; data?: any } = {};
 
   componentDidMount() {
-    const routeIndex = getCurrentInstance().router?.params?.routeIndex ?? 0;
+    const routeId = Router.lastPushingRouteId ?? '0';
     this.setState({
-      routeIndex,
+      routeId,
     });
-    Router.instance.routes[routeIndex].on("data-changed", (data) => {
+    Router.instance.routes[routeId].on("data-changed", (data) => {
       this.setState({ data: data });
       this.resetNavigationTitle();
     });
-    this.setState({ data: Router.instance.routes[routeIndex].data });
+    this.setState({ data: Router.instance.routes[routeId].data });
   }
 
   componentDidShow() {
-    const routeIndex = getCurrentInstance().router?.params?.routeIndex ?? 0;
-    if (routeIndex < Router.instance.routes.length - 1) {
-      Router.triggerPop();
+    if (this.state.routeId) {
+      Router.triggerPop(this.state.routeId);
     }
     this.isShowed = true;
     this.resetNavigationTitle();
@@ -41,10 +39,6 @@ export default class Index extends Component {
 
   resetNavigationTitle() {
     if (!this.isShowed) return;
-    const routeIndex = getCurrentInstance().router?.params?.routeIndex ?? 0;
-    if (routeIndex < Router.instance.routes.length - 1) {
-      return;
-    }
     Taro.setNavigationBarTitle({
       title: this.state.data?.scaffold?.attributes?.name ?? "",
     });

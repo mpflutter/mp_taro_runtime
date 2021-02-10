@@ -36,7 +36,7 @@ export class App {
     Taro.onSocketMessage((res) => {
       const messageData = JSON.parse(res.data);
       if (messageData.type === "frame_data") {
-        Router.instance.routes[Router.instance.routes.length - 1]?.update(
+        Router.instance.routes[messageData.message.routeId]?.update(
           messageData.message
         );
       } else if (messageData.type === "route") {
@@ -79,7 +79,7 @@ export class App {
           try {
             const messageData = JSON.parse(message);
             if (messageData.type === "frame_data") {
-              Router.instance.routes[Router.instance.routes.length - 1]?.update(
+              Router.instance.routes[messageData.message.routeId]?.update(
                 messageData.message
               );
             } else if (messageData.type === "route") {
@@ -121,15 +121,16 @@ export class Route extends Events {
 export class Router {
   static instance = new Router();
 
-  routes: Route[] = [new Route()];
+  routes: { [key: string]: Route } = { "0": new Route() };
 
-  static triggerPop() {
+  static triggerPop(toRouteId: string) {
     if (this.doBacking) return;
     App.callbackChannel(
       JSON.stringify({
         type: "router",
         message: {
           event: "doPop",
+          toRouteId: toRouteId,
         },
       })
     );
@@ -143,7 +144,10 @@ export class Router {
     }
   }
 
+  static lastPushingRouteId: string | undefined;
+
   static didPush(message: any) {
+    let routeId: string = message.route.hash?.toString() ?? "0";
     let routeUrl: string = message.route.name;
     if (routeUrl.indexOf("?") > 0) {
       let path = routeUrl.split("?")[0];
@@ -153,13 +157,10 @@ export class Router {
         .join("?");
       routeUrl = `${path}${encodeURIComponent(`?${others}`)}`;
     }
-    this.instance.routes.push(new Route());
+    Router.instance.routes[routeId] = new Route();
+    Router.lastPushingRouteId = routeId;
     Taro.navigateTo({
-      url:
-        "index?route=" +
-        routeUrl +
-        "&routeIndex=" +
-        (this.instance.routes.length - 1),
+      url: "index?route=" + routeUrl,
     });
   }
 
@@ -168,7 +169,6 @@ export class Router {
   static didPop() {
     this.doBacking = true;
     Taro.navigateBack();
-    this.instance.routes.pop();
     this.doBacking = false;
   }
 }
