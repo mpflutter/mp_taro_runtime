@@ -46,47 +46,49 @@ export class TextMeasurer extends React.Component<
 
   componentDidUpdate() {
     if (!Object.keys(this.state.targetTexts).length) return;
-    let data: any[] = [];
-    Taro.createSelectorQuery()
-      .selectAll(".text_measure_item")
-      .fields({ size: true, id: true }, (res) => {
-        data.push(
-          ...res.map((it) => {
-            const targetText = this.state.targetTexts[
-              parseInt(it.id?.replace("text_measurer_", ""))
-            ];
-            if (targetText) {
-              MeasureCache.instance.addCache(targetText, {
-                width: it.width,
-                height: it.height,
+    setTimeout(() => {
+      let data: any[] = [];
+      Taro.createSelectorQuery()
+        .selectAll(".text_measure_item")
+        .fields({ size: true, id: true }, (res) => {
+          data.push(
+            ...res.map((it) => {
+              const targetText = this.state.targetTexts[
+                parseInt(it.id?.replace("text_measurer_", ""))
+              ];
+              if (targetText) {
+                MeasureCache.instance.addCache(targetText, {
+                  width: it.width,
+                  height: it.height,
+                });
+              }
+              return {
+                measureId: parseInt(it.id?.replace("text_measurer_", "")),
+                size: { width: it.width, height: it.height },
+              };
+            })
+          );
+          Object.values(this.state.targetTexts).forEach((targetText) => {
+            const cache = MeasureCache.instance.getCache(targetText);
+            if (cache) {
+              data.push({
+                measureId: targetText.attributes.measureId,
+                size: cache,
               });
             }
-            return {
-              measureId: parseInt(it.id?.replace("text_measurer_", "")),
-              size: { width: it.width, height: it.height },
-            };
-          })
-        );
-        Object.values(this.state.targetTexts).forEach((targetText) => {
-          const cache = MeasureCache.instance.getCache(targetText);
-          if (cache) {
-            data.push({
-              measureId: targetText.attributes.measureId,
-              size: cache,
-            });
-          }
-        });
-        App.callbackChannel(
-          JSON.stringify({
-            type: "rich_text",
-            message: {
-              event: "onMeasured",
-              data: data,
-            },
-          })
-        );
-      })
-      .exec();
+          });
+          App.callbackChannel(
+            JSON.stringify({
+              type: "rich_text",
+              message: {
+                event: "onMeasured",
+                data: data,
+              },
+            })
+          );
+        })
+        .exec();
+    }, 0);
   }
 
   doScan(props: { scaffold: MPComponentsProps }) {
