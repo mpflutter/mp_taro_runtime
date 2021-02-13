@@ -9,6 +9,7 @@ export class GestureDetector extends Component<{ data: MPComponentsProps }> {
     return (
       <View
         style={{}}
+        hoverClass="mp_touch_opacity"
         onClick={
           this.props.data.attributes.onTap
             ? (e: any) => {
