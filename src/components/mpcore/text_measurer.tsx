@@ -166,7 +166,7 @@ export class TextMeasurer extends React.Component<
             }
             return (
               <View
-                key={`text_measurer_${it.attributes.measureId}`}
+                key={`text_measurer_${it.attributes.measureId}_${it.constraints?.maxWidth}_${it.constraints?.maxHeight}`}
                 id={`text_measurer_${it.attributes.measureId}`}
                 className="text_measure_item"
                 style={{

@@ -36,9 +36,10 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
           textOverflow: "ellipsis",
           textAlign: cssTextAlign(this.props.data.attributes.textAlign),
           display: "-webkit-box",
-          '-webkit-line-clamp': this.props.data.attributes.maxLines.toString(),
-          '-webkit-box-orient': "vertical",
+          "-webkit-line-clamp": this.props.data.attributes.maxLines.toString(),
+          "-webkit-box-orient": "vertical",
           fontSize: "11px",
+          lineHeight: this.props.data.attributes.height?.toString(),
           overflowWrap: "anywhere",
           wordBreak: "break-all",
           wordWrap: "break-word",
@@ -58,9 +59,10 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
           textOverflow: "ellipsis",
           textAlign: cssTextAlign(this.props.data.attributes.textAlign),
           display: "-webkit-box",
-          '-webkit-line-clamp': "99999",
-          '-webkit-box-orient': "vertical",
+          "-webkit-line-clamp": "99999",
+          "-webkit-box-orient": "vertical",
           fontSize: "11px",
+          lineHeight: this.props.data.attributes.height?.toString(),
           overflowWrap: "anywhere",
           wordBreak: "break-all",
           wordWrap: "break-word",
@@ -77,9 +79,7 @@ export class RichText extends Component<{ data: MPComponentsProps }> {
         return jsxComponentFromSpan(it, idx);
       })
       .join("");
-    return (
-      <TaroRichText nodes={content} style={style} />
-    );
+    return <TaroRichText nodes={content} style={style} />;
   }
 }
 
@@ -95,15 +95,13 @@ const jsxComponentFromSpan = (it: any, _: number) => {
 
 export class TextSpan extends Component<any> {
   static render(data: any) {
-    if (!data.attributes.text && data.children) {
-      return data.children
-        .map((it, idx) => jsxComponentFromSpan(it, idx))
-        .join("");
-    } else {
-      return `<span style="${cssTextStyleString(data.attributes.style)}">${
-        data.attributes.text
-      }</span>`;
-    }
+    return `<span style="${cssTextStyleString(data.attributes.style)}">${
+      data.attributes.text ?? ""
+    }${
+      data.children?.map((it: any, idx: number) => {
+        return jsxComponentFromSpan(it, idx);
+      }) ?? ""
+    }</span>`;
   }
 }
 

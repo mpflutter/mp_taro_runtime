@@ -57,11 +57,11 @@ export class MPScaffold extends Component<{ data: MPComponentsProps }> {
   }
 
   setupDocumentTitle() {
-    if (this.props.data.attributes?.name) {
-      document.title = this.props.data.attributes.name;
-    } else {
-      document.title = "";
-    }
+    // if (this.props.data.attributes?.name) {
+    //   document.title = this.props.data.attributes.name;
+    // } else {
+    //   document.title = "";
+    // }
   }
 
   render() {
