@@ -67,7 +67,7 @@ export default class Index extends Component {
                 position: "sticky",
                 bottom: "0px",
                 zIndex: 1,
-                opacity: 0.0,
+                opacity: "0",
               }}
             >
               {MPCore.render(this.state.data?.mainTabBar)}
