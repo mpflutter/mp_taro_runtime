@@ -59,7 +59,14 @@ export default class Index extends Component {
             : "unset",
         }}
       >
-        {MPCore.render(this.state.data?.scaffold)}
+        {this.state.data?.mainTabBar ? (
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {MPCore.render(this.state.data?.scaffold)}
+            {MPCore.render(this.state.data?.mainTabBar)}
+          </div>
+        ) : (
+          MPCore.render(this.state.data?.scaffold)
+        )}
         <TextMeasurer scaffold={this.state.data?.scaffold} />
       </View>
     );
