@@ -14,7 +14,7 @@ export default class Index extends Component {
   state: { routeId?: string; data?: any } = {};
 
   componentDidMount() {
-    const routeId = Router.lastPushingRouteId ?? '0';
+    const routeId = Router.lastPushingRouteId ?? "0";
     this.setState({
       routeId,
     });
@@ -60,10 +60,22 @@ export default class Index extends Component {
         }}
       >
         {this.state.data?.mainTabBar ? (
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <View style={{ display: "flex", flexDirection: "column" }}>
             {MPCore.render(this.state.data?.scaffold)}
-            {MPCore.render(this.state.data?.mainTabBar)}
-          </div>
+            <View
+              style={{
+                position: "sticky",
+                bottom: "0px",
+                zIndex: 1,
+                opacity: 0.0,
+              }}
+            >
+              {MPCore.render(this.state.data?.mainTabBar)}
+            </View>
+            <View style={{ position: "fixed", bottom: "0px", zIndex: 1 }}>
+              {MPCore.render(this.state.data?.mainTabBar)}
+            </View>
+          </View>
         ) : (
           MPCore.render(this.state.data?.scaffold)
         )}
