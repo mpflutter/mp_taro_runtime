@@ -7,12 +7,6 @@ import { cssConstraints } from "../utils/geometry";
 import { View, RichText as TaroRichText } from "@tarojs/components";
 
 export class RichText extends Component<{ data: MPComponentsProps }> {
-  shouldComponentUpdate(nextProps: { data: MPComponentsProps }) {
-    if (nextProps.data.attributes.measureId) {
-      return false;
-    }
-    return true;
-  }
 
   render() {
     let style = {};
