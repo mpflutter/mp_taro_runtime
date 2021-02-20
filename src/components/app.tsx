@@ -145,6 +145,7 @@ export class Router {
   }
 
   static lastPushingRouteId: string | undefined;
+  static lastPageReplacing: boolean | undefined;
 
   static didPush(message: any) {
     let routeId: string = message.route.hash?.toString() ?? "0";
@@ -159,9 +160,16 @@ export class Router {
     }
     Router.instance.routes[routeId] = new Route();
     Router.lastPushingRouteId = routeId;
-    Taro.navigateTo({
-      url: "index?route=" + routeUrl,
-    });
+    if (Router.lastPageReplacing) {
+      Taro.redirectTo({
+        url: "index?route=" + routeUrl,
+      });
+      Router.lastPageReplacing = false;
+    } else {
+      Taro.navigateTo({
+        url: "index?route=" + routeUrl,
+      });
+    }
   }
 
   static doBacking = false;

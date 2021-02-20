@@ -6,7 +6,7 @@ import { MPCore } from "../../components/mpcore/mpcore";
 import { cssColor } from "../../components/mpcore/utils/color";
 import { View } from "@tarojs/components";
 import { ScrollListener } from "../..//components/mpcore/scroll_listener";
-import { Router } from "../../components/app";
+import App, { Router } from "../../components/app";
 import { TextMeasurer } from "../../components/mpcore/text_measurer";
 
 export default class Index extends Component {
@@ -14,7 +14,23 @@ export default class Index extends Component {
   state: { routeId?: string; data?: any } = {};
 
   componentDidMount() {
-    const routeId = Router.lastPushingRouteId ?? "0";
+    let routeId = Router.lastPushingRouteId ?? "0";
+    if (routeId === "0" && Taro.getCurrentPages().length > 1) {
+      Router.lastPageReplacing = true;
+      App.callbackChannel(
+        JSON.stringify({
+          type: "router",
+          message: {
+            event: "doPush",
+            name: decodeURIComponent(
+              Taro.getCurrentInstance()?.router?.params?.route ?? "/"
+            ),
+          },
+        })
+      );
+      return;
+    }
+    Router.lastPushingRouteId = undefined;
     this.setState({
       routeId,
     });
