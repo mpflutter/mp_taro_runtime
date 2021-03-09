@@ -12,8 +12,8 @@ export default class Index extends Component {
   isShowed = false;
   state: { routeId?: string; data?: any } = {};
 
-  componentDidMount() {
-    App.instance.start();
+  async componentDidMount() {
+    await App.instance.start();
     let routeId = Router.lastPushingRouteId ?? "0";
     if (routeId === "0" && Taro.getCurrentPages().length > 1) {
       Router.lastPageReplacing = true;

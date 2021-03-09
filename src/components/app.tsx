@@ -15,7 +15,7 @@ export class App {
     return AppConfig.mp.isDebug;
   }
 
-  start() {
+  async start() {
     if (App.started) return;
     App.started = true;
     if (this.mpFlutterIsDebug()) {
@@ -23,6 +23,11 @@ export class App {
     } else {
       this.setupJSChannel();
     }
+    return new Promise((res) => {
+      setTimeout(() => {
+        res(null);
+      }, 100);
+    });
   }
 
   setupDartChannel() {
@@ -100,7 +105,6 @@ export class App {
       },
       devicePixelRatio: 1.0,
       locationToSubPackage: (pkgName, routeName) => {
-        console.log("locationToSubPackage", pkgName, routeName);
         Taro.navigateTo({ url: `/pages/${pkgName}/index?route=${routeName}` });
       },
     };
