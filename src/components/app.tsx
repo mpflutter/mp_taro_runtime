@@ -7,6 +7,7 @@ const appEvents = new Events();
 
 export class App {
   static instance = new App();
+  static started = false;
 
   static callbackChannel: (message: string) => void = () => {};
 
@@ -15,6 +16,8 @@ export class App {
   }
 
   start() {
+    if (App.started) return;
+    App.started = true;
     if (this.mpFlutterIsDebug()) {
       this.setupDartChannel();
     } else {
@@ -88,7 +91,7 @@ export class App {
           } catch (error) {}
         },
       },
-      location: { href: "" },
+      location: { href: Taro.getCurrentInstance().page?.path },
       document: {
         body: {
           clientWidth: Taro.getSystemInfoSync().windowWidth,
@@ -96,6 +99,10 @@ export class App {
         },
       },
       devicePixelRatio: 1.0,
+      locationToSubPackage: (pkgName, routeName) => {
+        console.log("locationToSubPackage", pkgName, routeName);
+        Taro.navigateTo({ url: `/pages/${pkgName}/index?route=${routeName}` });
+      },
     };
     require("../dart/main.dart");
   }
