@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Taro from "@tarojs/taro";
-import "./index.scss";
 
 import { MPCore } from "../../components/mpcore/mpcore";
 import { cssColor } from "../../components/mpcore/utils/color";
