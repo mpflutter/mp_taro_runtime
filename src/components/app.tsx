@@ -96,7 +96,7 @@ export class App {
           } catch (error) {}
         },
       },
-      location: { href: Taro.getCurrentInstance().router?.path },
+      location: { href: Taro.getCurrentInstance().router?.params?.route },
       document: {
         body: {
           clientWidth: Taro.getSystemInfoSync().windowWidth,
