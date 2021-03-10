@@ -3,7 +3,7 @@ import React from "react";
 import { MPComponentsProps } from "./component";
 import { MPCore } from "./mpcore";
 import Taro from "@tarojs/taro";
-import { App } from "../app";
+import { AppContext } from "../app_provider";
 import LRU from "lru";
 
 export class TextMeasurer extends React.Component<
@@ -35,6 +35,8 @@ export class TextMeasurer extends React.Component<
     targetTexts: {},
     targetHash: "",
   };
+
+  App: any;
 
   componentDidMount() {
     this.doScan(this.props);
@@ -77,7 +79,7 @@ export class TextMeasurer extends React.Component<
               });
             }
           });
-          App.callbackChannel(
+          this.App?.callbackChannel(
             JSON.stringify({
               type: "rich_text",
               message: {
@@ -147,42 +149,51 @@ export class TextMeasurer extends React.Component<
     }
     let sameKeys: { [key: string]: boolean } = {};
     return (
-      <View
-        key="text_measurer"
-        style={{
-          display: "contents",
-        }}
-      >
-        {Object.values(this.state.targetTexts)
-          .filter((it) => !MeasureCache.instance.getCache(it))
-          .map((it) => {
-            const itKey = MeasureCache.instance.makeKey(it);
-            if (sameKeys[itKey] === true) {
-              return null;
-            }
-            sameKeys[itKey] = true;
-            if (it.constraints) {
-              it.constraints.measuring = true;
-            }
+      <AppContext.Consumer>
+        {(App) =>
+          (() => {
+            this.App = App;
             return (
               <View
-                key={`text_measurer_${it.attributes.measureId}_${it.constraints?.maxWidth}_${it.constraints?.maxHeight}`}
-                id={`text_measurer_${it.attributes.measureId}`}
-                className="text_measure_item"
+                key="text_measurer"
                 style={{
-                  position: "absolute",
-                  left: "0px",
-                  top: "-9999px",
-                  opacity: 0,
-                  zIndex: -9999,
-                  pointerEvents: "none",
+                  display: "contents",
                 }}
               >
-                {MPCore.render(it)}
+                {Object.values(this.state.targetTexts)
+                  .filter((it) => !MeasureCache.instance.getCache(it))
+                  .map((it) => {
+                    const itKey = MeasureCache.instance.makeKey(it);
+                    if (sameKeys[itKey] === true) {
+                      return null;
+                    }
+                    sameKeys[itKey] = true;
+                    if (it.constraints) {
+                      it.constraints.measuring = true;
+                    }
+                    return (
+                      <View
+                        key={`text_measurer_${it.attributes.measureId}_${it.constraints?.maxWidth}_${it.constraints?.maxHeight}`}
+                        id={`text_measurer_${it.attributes.measureId}`}
+                        className="text_measure_item"
+                        style={{
+                          position: "absolute",
+                          left: "0px",
+                          top: "-9999px",
+                          opacity: 0,
+                          zIndex: -9999,
+                          pointerEvents: "none",
+                        }}
+                      >
+                        {MPCore.render(it)}
+                      </View>
+                    );
+                  })}
               </View>
             );
-          })}
-      </View>
+          })()
+        }
+      </AppContext.Consumer>
     );
   }
 }
