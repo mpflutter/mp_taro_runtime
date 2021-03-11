@@ -8,6 +8,7 @@ import { ScrollListener } from "../..//components/mpcore/scroll_listener";
 import App, { Router } from "../../components/app";
 import { AppContext } from "../../components/app_provider";
 import { TextMeasurer } from "../../components/mpcore/text_measurer";
+import { Overlay } from "../..//components/mpcore/components/overlay";
 
 export default class Index extends Component {
   isShowed = false;
@@ -98,6 +99,11 @@ export default class Index extends Component {
           ) : (
             MPCore.render(this.state.data?.scaffold)
           )}
+          {this.state.data?.overlays?.length > 0
+            ? this.state.data.overlays.map((it: any, index: number) => (
+                <Overlay key={`overlay_${index}`} data={it} />
+              ))
+            : null}
           <TextMeasurer scaffold={this.state.data?.scaffold} />
         </View>
       </AppContext.Provider>
