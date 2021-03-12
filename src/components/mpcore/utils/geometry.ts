@@ -29,7 +29,7 @@ export const cssWidth = (value: string, isTight = true) => {
   } else if (value === "0.001") {
     return "100%";
   } else {
-    return value + "px";
+    return parseFloat(value).toFixed(2) + "px";
   }
 };
 
@@ -43,7 +43,7 @@ export const cssHeight = (value: string, isTight = true) => {
   } else if (value === "0.001") {
     return "100%";
   } else {
-    return value + "px";
+    return parseFloat(value).toFixed(2) + "px";
   }
 };
 
